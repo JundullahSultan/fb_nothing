@@ -1,0 +1,431 @@
+@import "tailwindcss";
+
+:root {
+  --font-serif: 'Playfair Display', Georgia, Cambria, 'Times New Roman', serif;
+  --font-sans: 'Plus Jakarta Sans', 'HelveticaNowDisplayW01-Rg', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Plus Jakarta Sans', 'HelveticaNowDisplay-Medium', sans-serif;
+  /* ==========================================================================
+     SECTION 2 SCROLL-SEQUENCE HEIGHT
+     Controls scroll distance for the sticky sequence.
+     Recommended range: 800vh to 1400vh (Default: 1000vh desktop, 1200vh mobile)
+     ========================================================================== */
+  --sequence-height: 1000vh;
+  --section-2-height: var(--sequence-height);
+  --frame-color: #f5ebe0;
+  --frame-gap: clamp(10px, 1.2vw, 18px);
+  --frame-radius: clamp(16px, 2vw, 28px);
+  --notch-radius: clamp(14px, 1.6vw, 24px);
+
+  /* ==========================================================================
+     SCROLLBAR VARIABLES
+     ========================================================================== */
+  --scrollbar-track: #f5ebe0;        /* same as the frame color */
+  --scrollbar-thumb: #8f7a62;        /* darker warm tone (>= 3:1 contrast against track) */
+  --scrollbar-thumb-hover: #1774c8;  /* brand blue accent */
+  --scrollbar-width: 12px;
+
+  /* ==========================================================================
+     PRODUCTS-SECTION
+     Colors for the Featured Products carousel section
+     ========================================================================== */
+  --products-bg: #f5ebe0;
+  --products-card-bg: #fffbf5;
+  --products-card-border: rgba(143, 122, 98, 0.14);
+  --products-text-dark: #3b2f26;
+  --products-text-muted: #8f7a62;
+  --products-tan: #b89a74;
+  --products-tan-hover: #a38560;
+  --products-badge-bg: #eddccb;
+
+  /* ==========================================================================
+     MEDIA-POSTER
+     Color tokens for Section 3 editorial poster card
+     ========================================================================== */
+  --poster-bg: #f5ebe0;
+  --poster-ink: #0b1c31;        /* deep navy, matches the site */
+  --poster-accent: #1774c8;     /* brand blue, used sparingly */
+  --poster-muted: rgba(11, 28, 49, 0.65);
+
+  /* Alternative preset: Original teal poster look
+  --poster-ink: #2a6b66;
+  --poster-accent: #2a6b66;
+  --poster-muted: rgba(42, 107, 102, 0.65);
+  */
+
+  /* ==========================================================================
+     CONTACT-PAGE: Minimal full-screen contact page color tokens
+     Default: Warm white editorial palette (matching reference)
+     ========================================================================== */
+  --contact-bg: #fbf8f3;                 /* warm white */
+  --contact-ink: #0b1c31;                /* deep navy, near black, matches the site */
+  --contact-muted: rgba(11, 28, 49, 0.62);
+  --contact-line: rgba(11, 28, 49, 0.55);   /* underline of the fields */
+  --contact-accent: #1774c8;             /* brand blue, focus and hover only */
+
+  /* Alternative preset: Dark theme
+  --contact-bg: #0b1c31;
+  --contact-ink: #f5ebe0;
+  --contact-muted: rgba(245, 235, 224, 0.65);
+  --contact-line: rgba(245, 235, 224, 0.40);
+  --contact-accent: #60a5fa;
+  */
+  /* ==========================================================================
+     COLOR-GRADE: Active preset variables (Default: "visible")
+     Presets available: subtle, visible (default), strong
+     ========================================================================== */
+  --grade-warm: #f5ebe0;
+  --grade-cool: #0b1c31;
+  --grade-accent: #1774c8;
+  --grade-opacity: 0.92;
+  --grade-vignette: 0.35;
+  --grade-blend-mode: soft-light;
+
+  /* Layer Alpha Strengths (Default: "visible" preset) */
+  --grade-base-warm-a: 0.28;        /* warm beige glow (top-left) */
+  --grade-base-cool-a: 0.50;        /* deep navy shading (bottom-right) */
+  --grade-accent-a: 0.30;           /* brand blue glow (top-right) */
+  --grade-warm-a: 0.16;             /* amber ambient light (bottom-left) */
+}
+
+@media (max-width: 767px) {
+  :root {
+    --sequence-height: 1200vh;
+    --section-2-height: var(--sequence-height);
+    --frame-gap: 8px;
+    --frame-radius: 14px;
+    --notch-radius: 10px;
+  }
+}
+
+/* ==========================================================================
+   HERO-CARD CONNECTION: Tab entrance animation & motion preferences
+   ========================================================================== */
+@keyframes tabSlideDown {
+  from {
+    transform: translateY(-8px);
+    opacity: 0.8;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.notched-tab-animated {
+  animation: tabSlideDown 320ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .notched-tab-animated {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ==========================================================================
+   SCROLLBAR
+   Custom styled page scrollbar matching the #f5ebe0 frame design
+   ========================================================================== */
+html {
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+  /* 1. Standard properties (Firefox, Chrome 121+, Safari 17.2+) */
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  scrollbar-width: auto;
+}
+
+/* 2. WebKit fallback for older Chrome and Safari (avoiding conflict with standard properties) */
+@supports not (scrollbar-color: auto) {
+  html::-webkit-scrollbar {
+    width: var(--scrollbar-width);
+  }
+
+  html::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+  }
+
+  html::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 999px;
+    border: 3px solid var(--scrollbar-track); /* gives the floating, inset pill look */
+    transition: background-color 0.2s ease;
+  }
+
+  html::-webkit-scrollbar-thumb:hover,
+  html::-webkit-scrollbar-thumb:active {
+    background: var(--scrollbar-thumb-hover);
+  }
+}
+
+body {
+  font-family: var(--font-sans);
+  margin: 0;
+  padding: 0;
+  overflow-x: clip;
+  background-color: #0b1322;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #1a1a1a;
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.animate-blink {
+  animation: blink 1s step-end infinite;
+}
+
+/* ==========================================================================
+   COLOR-GRADE: Presets & Controls
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   PRESET 1: "subtle" (previous delicate low-contrast tint)
+   To activate: add class 'grade-subtle' to the section/card or set data-grade="subtle"
+   -------------------------------------------------------------------------- */
+.grade-subtle,
+:root[data-grade="subtle"] {
+  --grade-base-warm-a: 0.12;
+  --grade-base-cool-a: 0.20;
+  --grade-accent-a: 0.12;
+  --grade-warm-a: 0.08;
+  --grade-vignette: 0.20;
+  --grade-opacity: 0.85;
+  --grade-blend-mode: soft-light;
+}
+
+/* --------------------------------------------------------------------------
+   PRESET 2: "visible" (DEFAULT - clearly noticeable yet natural color mood)
+   Warm light from top-left/bottom-left, deep navy & blue from top-right/bottom-right
+   -------------------------------------------------------------------------- */
+.grade-visible,
+:root[data-grade="visible"] {
+  --grade-base-warm-a: 0.28;
+  --grade-base-cool-a: 0.50;
+  --grade-accent-a: 0.30;
+  --grade-warm-a: 0.16;
+  --grade-vignette: 0.35;
+  --grade-opacity: 0.92;
+  --grade-blend-mode: soft-light;
+}
+
+/* --------------------------------------------------------------------------
+   PRESET 3: "strong" (approx 1.5x alpha values of "visible")
+   To activate: add class 'grade-strong' to the section/card or set data-grade="strong"
+   -------------------------------------------------------------------------- */
+.grade-strong,
+:root[data-grade="strong"] {
+  --grade-base-warm-a: 0.42;
+  --grade-base-cool-a: 0.75;
+  --grade-accent-a: 0.45;
+  --grade-warm-a: 0.24;
+  --grade-vignette: 0.50;
+  --grade-opacity: 1.0;
+  --grade-blend-mode: overlay;
+}
+
+/* High contrast mode accessibility */
+@media (prefers-contrast: more) {
+  :root {
+    --grade-base-warm-a: 0.06;
+    --grade-base-cool-a: 0.10;
+    --grade-accent-a: 0.06;
+    --grade-warm-a: 0.04;
+    --grade-vignette: 0.10;
+    --grade-opacity: 0.40;
+  }
+}
+
+/* Optional light contrast/saturation bump on canvas */
+.canvas-color-graded {
+  filter: contrast(1.04) saturate(1.06);
+}
+
+/* Color grade container */
+.color-grade-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  border-radius: var(--frame-radius, clamp(16px, 2vw, 28px));
+  opacity: var(--grade-opacity, 0.92);
+  transition: opacity 250ms ease;
+}
+
+/* Base Layer: Warm beige to deep navy diagonal linear gradient + soft center vignette */
+.color-grade-base {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  mix-blend-mode: normal;
+  background:
+    linear-gradient(
+      160deg,
+      rgba(245, 235, 224, var(--grade-base-warm-a, 0.28)) 0%,
+      rgba(245, 235, 224, 0) 35%,
+      rgba(15, 27, 45, 0) 55%,
+      rgba(15, 27, 45, var(--grade-base-cool-a, 0.50)) 100%
+    ),
+    radial-gradient(
+      ellipse at center,
+      transparent 55%,
+      rgba(0, 0, 0, var(--grade-vignette, 0.35)) 100%
+    );
+}
+
+/* Accent & Ambient Light Layer: Top-right blue glow + Bottom-left warm amber glow */
+.color-grade-blend {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  mix-blend-mode: var(--grade-blend-mode, soft-light);
+  background:
+    radial-gradient(
+      circle at 85% 15%,
+      rgba(26, 115, 200, var(--grade-accent-a, 0.30)) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 10% 85%,
+      rgba(255, 190, 120, var(--grade-warm-a, 0.16)) 0%,
+      transparent 50%
+    );
+}
+
+/* Fallback single-element overlay support */
+.color-grade-overlay:not(:has(.color-grade-base)) {
+  background:
+    linear-gradient(
+      160deg,
+      rgba(245, 235, 224, var(--grade-base-warm-a, 0.28)) 0%,
+      rgba(245, 235, 224, 0) 35%,
+      rgba(15, 27, 45, 0) 55%,
+      rgba(15, 27, 45, var(--grade-base-cool-a, 0.50)) 100%
+    ),
+    radial-gradient(
+      ellipse at center,
+      transparent 55%,
+      rgba(0, 0, 0, var(--grade-vignette, 0.35)) 100%
+    );
+}
+.color-grade-overlay:not(:has(.color-grade-blend))::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  mix-blend-mode: var(--grade-blend-mode, soft-light);
+  background:
+    radial-gradient(
+      circle at 85% 15%,
+      rgba(26, 115, 200, var(--grade-accent-a, 0.30)) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 10% 85%,
+      rgba(255, 190, 120, var(--grade-warm-a, 0.16)) 0%,
+      transparent 50%
+    );
+}
+
+/* Flag class to disable color grade entirely */
+.no-color-grade .color-grade-overlay,
+.no-color-grade.color-grade-overlay {
+  display: none !important;
+}
+.no-color-grade .canvas-color-graded,
+.no-color-grade.canvas-color-graded {
+  filter: none !important;
+}
+
+/* ==========================================================================
+   CONTACT-PAGE: Form field focus & custom dropdown styles
+   Underline-only focus: zero box outline, zero ring, zero layout shift.
+   ========================================================================== */
+.contact-input {
+  border-top: 0 !important;
+  border-left: 0 !important;
+  border-right: 0 !important;
+  border-bottom: 1px solid var(--contact-line) !important;
+  background-color: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.contact-input:focus,
+.contact-input:focus-visible,
+.contact-input.is-open {
+  outline: none !important;
+  border-bottom-color: var(--contact-accent) !important;
+  /* Technique B: doubles line thickness downward cleanly with 0px layout shift */
+  box-shadow: 0 1px 0 0 var(--contact-accent) !important;
+}
+
+/* Chrome / Edge / Safari autofill override: eliminates light-blue box fill */
+.contact-input:-webkit-autofill,
+.contact-input:-webkit-autofill:hover {
+  -webkit-box-shadow: 0 0 0 1000px var(--contact-bg) inset !important;
+  -webkit-text-fill-color: var(--contact-ink) !important;
+  caret-color: var(--contact-ink) !important;
+  transition: background-color 9999s ease-out;
+}
+
+.contact-input:-webkit-autofill:focus,
+.contact-input:-webkit-autofill:focus-visible {
+  -webkit-box-shadow: 0 0 0 1000px var(--contact-bg) inset, 0 1px 0 0 var(--contact-accent) !important;
+  -webkit-text-fill-color: var(--contact-ink) !important;
+  caret-color: var(--contact-ink) !important;
+  border-bottom-color: var(--contact-accent) !important;
+  transition: background-color 9999s ease-out;
+}
+
+/* Floating contact dropdown animations */
+@keyframes contactDropdownInBottom {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes contactDropdownInTop {
+  from {
+    opacity: 0;
+    transform: translateY(4px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-contact-dropdown-bottom {
+  animation: contactDropdownInBottom 150ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-contact-dropdown-top {
+  animation: contactDropdownInTop 150ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-contact-dropdown-bottom,
+  .animate-contact-dropdown-top {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
